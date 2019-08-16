@@ -1,0 +1,55 @@
+var bigImg = document.querySelector('.bigImg');
+    //mouseover 鼠标移入
+    //mouseout鼠标移出
+    //mousemove鼠标移动事件
+    preview_img.addEventListener('mouseover',function(){
+        mask.style.display = 'block';
+        big.style.display = 'block';
+    });
+    preview_img.addEventListener('mouseout',function(){
+        mask.style.display = 'none';
+        big.style.display= 'none';
+    })
+    preview_img.addEventListener('mousemove',function(e){
+        // 先获取鼠标在盒子内的位置,
+        // 就是用鼠标距离页面位置减去盒子距离页面位置就得到鼠标的位置
+        var x = e.pageX - this.offsetLeft;
+        var y = e.pageY - this.offsetTop;
+        // console.log(x,y);
+        innerHeight
+
+        var maskX = x - mask.offsetWidth/2;
+        var maskY = y - mask.offsetHeight/2;
+       // 获取遮挡层的最大移动距离
+        //遮挡层只能在父盒子里移动,所以它的最大值就是父盒子的宽高减去遮挡层的宽高
+        var maskMax = preview_img.offsetWidth - mask.offsetWidth;
+
+        // 用可移动值来控制遮挡层的移动
+        // 如果等与0时就让遮挡层的 TOP left值为0；
+       if(maskX < 0 ){
+            maskX = 0
+       }else if(maskX > maskMax){
+        maskX = maskMax;
+       }
+       if(maskY < 0){
+        maskY  = 0;
+       }else if(maskY > maskMax){
+            maskY = maskMax;
+       }
+
+        // 把获得鼠标的值赋给 mask盒子绝对定位的 left ，top值既可让盒子跟着鼠标移动
+        // 这里必须加PX值，因为获取到的鼠标X Y值时没单位的
+            mask.style.left = maskX + 'px';
+            mask.style.top = maskY + 'px';
+        //先获取到大图片移动的最大值
+        var bigMax = bigImg.offsetWidth - big.offsetWidth;
+        // 大图片移动的值等与 小图移动的值 * 大图最大移动值 / 小图最大移动值
+        var bigX = maskX * bigMax / maskMax;
+        var bigY = maskY * bigMax / maskMax;
+
+
+        // 把取到的 X Y 轴移动值赋值给 大图片的 left top;
+        // 注意这里一定要时负值
+        bigImg.style.left = -bigX + 'px';
+        bigImg.style.top = -bigY + 'px';
+    })
