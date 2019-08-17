@@ -47,3 +47,14 @@ $('#updataBox').on('submit','#updataification',function(){
     })
     return false;
 })
+//删除
+$('#FenleiBox').on('click','.deleteId',function(){
+    var id = $(this).data('id');
+    $.ajax({
+        type : 'delete',
+        url : '/categories/'+ id,
+        success : function(){
+            location.reload();
+        }
+    });
+});
